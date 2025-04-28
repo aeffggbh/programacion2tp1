@@ -5,7 +5,7 @@ template <typename T>
 class Stack
 {
 private:
-	List<T> list;
+	List<T>* list;
 
 public:
 	Stack();
@@ -16,6 +16,7 @@ public:
 	Node<T>* GetFirst();
 	int GetCount();
 	bool IsEmpty();
+	Node<T>* at(int pos);
 };
 
 #include "Stack.tpp"

@@ -12,42 +12,49 @@ Stack<T>::~Stack<T>()
 template<typename T>
 Stack<T>::Stack()
 {
+	list = new List<T>();
 }
 
 template <typename T>
 void Stack<T>::Clear()
 {
-	list.Clear();
+	delete list;
 }
 
 template <typename T>
 void Stack<T>::Push(T data)
 {
-	list.PushFront(data);
+	list->PushFront(data);
 }
 
 template <typename T>
 T Stack<T>::Pop()
 {
-	return list.PopFront();
+	return list->PopFront();
 }
 
 template <typename T>
 Node<T>* Stack<T>::GetFirst()
 {
-	return list.GetFirst();
+	return list->GetFirst();
 }
 
 template <typename T>
 int Stack<T>::GetCount()
 {
-	return list.GetCount();
+	return list->GetCount();
 }
 
 template <typename T>
 bool Stack<T>::IsEmpty()
 {
-	return list.GetCount() == 0;
+	return list->GetCount() == 0;
+}
+
+template <typename T>
+Node<T>* Stack<T>::at(int pos)
+{
+	return list->at(pos);
 }
 
 #endif // !STACK.TPP

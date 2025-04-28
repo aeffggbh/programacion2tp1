@@ -32,7 +32,7 @@ void Node<T>::SetData(T data)
 template<typename T>
 void Node<T>::SetNext(Node* next)
 {
-		this->next = next;
+	this->next = next;
 }
 
 template<typename T>

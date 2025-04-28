@@ -5,7 +5,7 @@ template <typename T>
 class Queue
 {
 private:
-	List<T> list;
+	List<T> *list;
 
 public:
 	Queue();

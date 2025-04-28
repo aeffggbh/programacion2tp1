@@ -23,9 +23,15 @@
 float GetRandomFloat(int& min, int& max);
 int GetRandomInt(int& min, int& max);
 template <typename T>
-void Fill(List<T>& list, int& count, int& maxNum, int& minNum);
+void Fill(List<T>& list, Queue<T>& queue, Stack<T>& stack);
+template<typename T>
+void InsertValue(List<T>& list, T numberToInsert, int& count);
 template <typename T>
 void Print(List<T>& list);
+template <typename T>
+void Fill(Stack<T>& stack, int& count, int& maxNum, int& minNum);
+template <typename T>
+void Fill(Queue<T>& queue, int& count, int& maxNum, int& minNum);
 
 int main()
 {
@@ -39,10 +45,17 @@ int main()
 
 	int count;
 
-	cout << "Insert the list size" << endl;
+	cout << "Insert the stack size" << endl;
 	cin >> count;
 
-	Fill(floatList, count, max, min);
+	Fill(floatStack, count, max, min);
+
+	cout << "Insert the queue size" << endl;
+	cin >> count;
+
+	Fill(floatQueue, count, max, min);
+
+	Fill(floatList, floatQueue, floatStack);
 
 	Print(floatList);
 }
@@ -58,39 +71,49 @@ int GetRandomInt(int& min, int& max)
 }
 
 template <typename T>
-void Fill(List<T>& list, int& count, int& maxNum, int& minNum)
+void Fill(List<T>& list, Queue<T>& queue, Stack<T>& stack)
 {
-	float numberToInsert;
+	const int listsAmount = 2;
 
-	for (int i = 0; i < count; i++)
+	int count = queue.GetCount() + stack.GetCount();
+
+	for (int i = 0; i < listsAmount; i++)
 	{
-		numberToInsert = GetRandomFloat(minNum, maxNum);
-		cout << "CHOSEN_FLOAT: " << numberToInsert << endl;
+		if (i == 0)
+			for (int j = 0; j < queue.GetCount(); j++)
+				InsertValue(list, queue.at(j)->GetData(), count);
+		else
+			for (int j = 0; j < stack.GetCount(); j++)
+				InsertValue(list, stack.at(j)->GetData(), count);
+	}
+}
 
-		for (int j = 0; j < count; j++)
+template<typename T>
+void InsertValue(List<T>& list, T numberToInsert, int& count)
+{
+	for (int j = 0; j < count; j++)
+	{
+		if (list.GetCount() > 0)
 		{
-			if (list.GetCount() > 0)
+			if (j < list.GetCount())
 			{
-				if (j < list.GetCount())
+				if (list.at(j)->GetData() > numberToInsert)
 				{
-					if (list.at(j)->GetData() > numberToInsert)
-					{
-						list.insert(numberToInsert, j);
-						break;
-					}
-				}
-				else
-				{
-					list.PushBack(numberToInsert);
+					list.insert(numberToInsert, j);
 					break;
 				}
-
 			}
 			else
 			{
-				list.insert(numberToInsert, j);
+				list.PushBack(numberToInsert);
 				break;
 			}
+
+		}
+		else
+		{
+			list.insert(numberToInsert, j);
+			break;
 		}
 	}
 }
@@ -98,10 +121,38 @@ void Fill(List<T>& list, int& count, int& maxNum, int& minNum)
 template<typename T>
 void Print(List<T>& list)
 {
+	cout << "LIST: " << endl;
+
 	for (int i = 0; i < list.GetCount(); i++)
 	{
 		cout << "POSITION: " << i << endl;
 		cout << "NUMBER: " << list.at(i)->GetData() << endl;
 		cout << endl << endl;
+	}
+}
+
+template<typename T>
+void Fill(Stack<T>& stack, int& count, int& maxNum, int& minNum)
+{
+	float numberToInsert;
+
+	for (int i = 0; i < count; i++)
+	{
+		numberToInsert = GetRandomFloat(minNum, maxNum);
+		
+		stack.Push(numberToInsert);
+	}
+}
+
+template<typename T>
+void Fill(Queue<T>& queue, int& count, int& maxNum, int& minNum)
+{
+	float numberToInsert;
+
+	for (int i = 0; i < count; i++)
+	{
+		numberToInsert = GetRandomFloat(minNum, maxNum);
+
+		queue.Enqueue(numberToInsert);
 	}
 }
